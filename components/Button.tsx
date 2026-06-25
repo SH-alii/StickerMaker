@@ -2,42 +2,44 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 interface ButtonProps {
   title: string;
-  theme?: "primary";
+  broderColor?: string;
+  border?: boolean;
+  icon?: boolean;
+  onPress?: () => void;
 }
 
-export default function Button({ title, theme }: ButtonProps) {
-  if (theme == "primary") {
-    return (
-      <View
-        style={[
-          style.buttonContainer,
-          { borderWidth: 4, borderColor: "#ffd33d", borderRadius: 18 },
-        ]}
+export default function Button({
+  title,
+  broderColor = "#ffd33d",
+  border = false,
+  icon = false,
+  onPress = () => alert("You pressed a button."),
+}: ButtonProps) {
+  return (
+    <View
+      style={[
+        style.buttonContainer,
+        border && {
+          borderWidth: 4,
+          borderColor: `${broderColor}`,
+          borderRadius: 18,
+        },
+      ]}
+    >
+      <Pressable
+        style={[style.button, { backgroundColor: "#fff" }]}
+        onPress={onPress}
       >
-        <Pressable
-          style={[style.button, { backgroundColor: "#fff" }]}
-          onPress={() => alert("You pressed a button.")}
-        >
+        {icon && (
           <FontAwesome
             name="picture-o"
             size={18}
             color="#25292e"
             style={style.buttonIcon}
           />
-          <Text style={[style.buttonLabel, { color: "#25292e" }]}>{title}</Text>
-        </Pressable>
-      </View>
-    );
-  }
-  return (
-    <View style={style.buttonContainer}>
-      <Pressable
-        style={style.button}
-        onPress={() => {
-          alert("pressed");
-        }}
-      >
-        <Text style={style.buttonLabel}>{title}</Text>
+        )}
+
+        <Text style={[style.buttonLabel, { color: "#25292e" }]}>{title}</Text>
       </Pressable>
     </View>
   );
